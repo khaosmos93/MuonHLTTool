@@ -10548,4 +10548,4 @@ from HLTrigger.Configuration.Eras import modifyHLTforEras
 modifyHLTforEras(process)
 
 from MuonHLTTool.MuonHLTNtupler.customizerForMuonHLTNtupler import *
-customizerFuncForMuonHLTNtupler(process, "MYHLT")
+process = customizerFuncForMuonHLTNtupler(process, "MYHLT")
