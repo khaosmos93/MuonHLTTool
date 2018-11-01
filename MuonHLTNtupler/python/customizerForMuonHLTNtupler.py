@@ -1,7 +1,6 @@
 # -- custoimzer for ntupler that can be added to the HLT configuration for re-running HLT
-# -- add two lines in the HLT config.:
-# from MuonHLTTool.MuonHLTNtupler.customizerForNtupler import *
-# customizerFuncForMuonHLTNtupler(process, "MYHLT")
+# -- add "--customize" option in hltGetConfiguration:
+# -- ex> --customise MuonHLTTool/MuonHLTNtupler/customizerForMuonHLTNtupler.customizerFuncForMuonHLTNtupler
 
 import FWCore.ParameterSet.Config as cms
 
