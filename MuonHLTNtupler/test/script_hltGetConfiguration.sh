@@ -20,8 +20,16 @@ HLTAnalyzerEndpath \
 hltGetConfiguration orcoff:/cdaq/physics/Run2018/2e34/v3.6.1/HLT/V2 \
 --globaltag 101X_mc2017_realistic_TSG_2018_04_09_20_43_53 \
 --path HLTriggerFirstPath,\
+HLT_IsoMu20_v*,\
 HLT_IsoMu24_v*,\
+HLT_IsoMu27_v*,\
+HLT_IsoMu30_v*,\
+HLT_Mu12_v*,\
+HLT_Mu15_v*,\
+HLT_Mu20_v*,\
+HLT_Mu27_v*,\
 HLT_Mu50_v*,\
+HLT_Mu55_v*,\
 HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
@@ -29,5 +37,6 @@ HLTAnalyzerEndpath \
 --mc --process MYHLT --full --offline \
 --l1-emulator uGT \
 --l1 L1Menu_Collisions2018_v2_1_0-d1_xml \
---customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2017DtUnpacking \
---prescale none --max-events 100 --output none > HLTCfgMC_Mu.py
+--customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2017DtUnpacking,\
+MuonHLTTool/MuonHLTNtupler/customizerForMuonHLTNtupler.customizerFuncForMuonHLTNtupler \
+--prescale none --max-events 100 --output none > HLTCfgMC_Mu_ntupler.py
