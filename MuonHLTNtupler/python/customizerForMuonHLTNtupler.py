@@ -9,29 +9,25 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT"):
     if hasattr(process, "DQMOutput"):
         del process.DQMOutput
 
-    flag_HLTRerun = True
-
     from MuonHLTTool.MuonHLTNtupler.ntupler_cfi import ntuplerBase
 
     process.ntupler = ntuplerBase.clone()
-    process.ntupler.offlineMuon = cms.untracked.InputTag("muons")
-    process.ntupler.L3Muon = cms.untracked.InputTag("hltIterL3MuonCandidates")
-    process.ntupler.L2Muon = cms.untracked.InputTag("hltL2MuonCandidates")
-    process.ntupler.triggerResults = cms.untracked.InputTag("TriggerResults", "", "HLT")
-    process.ntupler.triggerEvent = cms.untracked.InputTag("hltTriggerSummaryAOD", "", "HLT")
-    process.ntupler.offlineLumiScaler = cms.untracked.InputTag("scalersRawToDigi")
 
-    if flag_HLTRerun: # -- after HLT re-run -- #
-        process.ntupler.L1Muon           = cms.untracked.InputTag("hltGtStage2Digis", "Muon", newProcessName)
-        process.ntupler.myTriggerResults = cms.untracked.InputTag("TriggerResults", "", newProcessName) # -- result after rerun HLT -- #
-        process.ntupler.myTriggerEvent   = cms.untracked.InputTag("hltTriggerSummaryAOD", "", newProcessName) # -- result after rerun HLT -- #
-        process.ntupler.lumiScaler       = cms.untracked.InputTag("hltScalersRawToDigi", "", newProcessName)
-        process.ntupler.iterL3MuonNoID   = cms.untracked.InputTag("hltIterL3MuonsNoID", "", newProcessName)
-    else: # -- without HLT re-run -- #
-        process.ntupler.L1Muon = cms.untracked.InputTag("gmtStage2Digis", "Muon", "RECO")
-        process.ntupler.myTriggerResults = cms.untracked.InputTag("TriggerResults")
-        process.ntupler.myTriggerEvent = cms.untracked.InputTag("hltTriggerSummaryAOD")
-        process.ntupler.lumiScaler = cms.untracked.InputTag("scalersRawToDigi") # -- same with OfflineLumiScaler
+    # -- objects in the dataset
+    process.ntupler.triggerResults    = cms.untracked.InputTag("TriggerResults", "", "HLT")
+    process.ntupler.triggerEvent      = cms.untracked.InputTag("hltTriggerSummaryAOD", "", "HLT")
+    process.ntupler.offlineLumiScaler = cms.untracked.InputTag("scalersRawToDigi")
+    process.ntupler.offlineMuon       = cms.untracked.InputTag("muons")
+
+    # -- rerun object
+    process.ntupler.lumiScaler       = cms.untracked.InputTag("hltScalersRawToDigi",     "",     newProcessName)
+    process.ntupler.L1Muon           = cms.untracked.InputTag("hltGtStage2Digis",        "Muon", newProcessName)
+    process.ntupler.L2Muon           = cms.untracked.InputTag("hltL2MuonCandidates",     "",     newProcessName)
+    process.ntupler.L3Muon           = cms.untracked.InputTag("hltIterL3MuonCandidates", "",     newProcessName)
+    process.ntupler.iterL3MuonNoID   = cms.untracked.InputTag("hltIterL3MuonsNoID",      "",     newProcessName)
+    process.ntupler.myTriggerResults = cms.untracked.InputTag("TriggerResults",          "",     newProcessName)
+    process.ntupler.myTriggerEvent   = cms.untracked.InputTag("hltTriggerSummaryAOD",    "",     newProcessName)
+
 
     process.TFileService = cms.Service("TFileService",
       fileName = cms.string("ntuple.root"),
@@ -40,4 +36,5 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT"):
 
     process.mypath = cms.EndPath(process.ntupler)
 
+    return process
 
