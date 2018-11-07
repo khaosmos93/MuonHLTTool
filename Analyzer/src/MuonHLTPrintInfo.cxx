@@ -1,16 +1,49 @@
 #include "FWCore/Framework/interface/EDAnalyzer.h"
-#include "FWCore/Framework/interface/Event.h"
-#include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-
-#include "DataFormats/Common/interface/TriggerResults.h"
+#include "FWCore/ServiceRegistry/interface/Service.h"
 #include "FWCore/Common/interface/TriggerNames.h"
+#include "FWCore/Common/interface/TriggerResultsByName.h"
+#include "FWCore/Framework/interface/ConsumesCollector.h"
+#include "FWCore/Framework/interface/ESHandle.h"
+#include "FWCore/Framework/interface/EventSetup.h"
+
+#include "DataFormats/Common/interface/Handle.h"
+#include "DataFormats/Common/interface/View.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
+#include "DataFormats/HLTReco/interface/TriggerObject.h"
+#include "DataFormats/L1Trigger/interface/Muon.h"
+#include "DataFormats/Luminosity/interface/LumiDetails.h"
+#include "DataFormats/Math/interface/deltaR.h"
+#include "DataFormats/MuonReco/interface/Muon.h"
+#include "DataFormats/MuonReco/interface/MuonSelectors.h"
+#include "DataFormats/MuonReco/interface/MuonTrackLinks.h"
+#include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/RecoCandidate/interface/IsoDeposit.h"
+#include "DataFormats/RecoCandidate/interface/IsoDepositFwd.h"
+#include "DataFormats/RecoCandidate/interface/RecoChargedCandidate.h"
+#include "DataFormats/RecoCandidate/interface/RecoChargedCandidateFwd.h"
+#include "DataFormats/RecoCandidate/interface/RecoChargedCandidateIsolation.h"
+#include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
+#include "DataFormats/VertexReco/interface/VertexFwd.h"
+#include "DataFormats/Scalers/interface/LumiScalers.h"
+
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
+#include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
+#include "HLTrigger/HLTcore/interface/HLTEventAnalyzerAOD.h"
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
+
+#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 
 #include <vector>
 #include <iostream>
 
 using namespace std;
+using namespace reco;
 using namespace edm;
 
 class MuonHLTPrintInfo : public edm::EDAnalyzer {
