@@ -1,3 +1,5 @@
+import FWCore.ParameterSet.Config as cms
+
 process = cms.Process("MuonHLT")
 
 process.source = cms.Source("PoolSource",
