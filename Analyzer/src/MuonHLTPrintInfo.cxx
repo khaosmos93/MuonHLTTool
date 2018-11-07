@@ -102,7 +102,7 @@ t_iterL3MuonNoID_    ( consumes< std::vector<reco::Muon> >                (iConf
   printIterL3MuonNoID_  = iConfig.getUntrackedParameter<bool>("printIterL3MuonNoID");
 }
 
-void MuonHLTPrintInfo::analyze(const edm::Event&, const edm::EventSetup&)
+void MuonHLTPrintInfo::analyze(const edm::Event& iEvent, const edm::EventSetup& iEventSetup)
 {
   cout << iEvent.id().run() << ":" << iEvent.id().luminosityBlock() << ":" << iEvent.id().event() << endl;
 
@@ -112,12 +112,12 @@ void MuonHLTPrintInfo::analyze(const edm::Event&, const edm::EventSetup&)
     PrintMuonBxCollection("L1Muon", h_L1Muon);
 
   // -- L2 muon
-  edm::Handle<PrintRecoChargedCandidateCollection> h_L2Muon;
+  edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
   if( printL2Muon_ && iEvent.getByToken(t_L2Muon_, h_L2Muon) )
     PrintRecoChargedCandidateCollection("L2Muon", h_L2Muon);
 
   // -- L3 muon
-  edm::Handle<PrintRecoChargedCandidateCollection> h_L3Muon;
+  edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
   if( printL3Muon_ && iEvent.getByToken(t_L3Muon_, h_L3Muon) )
     PrintRecoChargedCandidateCollection("L3Muon", h_L3Muon);
 
@@ -127,28 +127,29 @@ void MuonHLTPrintInfo::analyze(const edm::Event&, const edm::EventSetup&)
 
 void MuonHLTPrintInfo::PrintMuonBxCollection(std::string type, edm::Handle<l1t::MuonBxCollection>& handle)
 {
-  printf("[MuonHLTPrintInfo::PrintMuonBxCollection] type = %s\n", type);
+  cout << "[MuonHLTPrintInfo::PrintMuonBxCollection] type = " << type << endl;
 
   for(int ibx = handle->getFirstBX(); ibx<=handle->getLastBX(); ++ibx)
   {
     if(ibx != 0) continue; // -- only take when ibx == 0 -- //
 
-    int nObject = (int)handle->size();
-    printf("# object = %d\n", nObject);
-    for(int i_obj=0; i_obj<nObject; i_obj++)
+    int nObject = 0;
+    for(auto it=handle->bigin(ibx); it!=handle->end(ibx); it++)
     {
-      l1t::MuonRef ref_L1Mu(handle, distance(handle->begin(handle->getFirstBX()), i_obj) );
+      l1t::MuonRef ref_L1Mu( handle, distance(handle->begin(handle->getFirstBX()) , it) );
+      printf("  [%02d object] (pt, eta, phi, charge, quality) = (%.3lf, %.3lf, %.3lf, %.3lf, %.3lf)\n",
+             nObject, ref_L1Mu->pt(), ref_L1Mu->eta(), ref_L1Mu->phi(), ref_L1Mu->charge(), ref_L1Mu->hwQual() );
 
-      printf("  [%02d object] (pt, eta, phi, charge, quality) = (%.3lf, %.3lf, %.3lf, %.3lf, %d)\n",
-             i_obj, ref_L1Mu->pt(), ref_L1Mu->eta(), ref_L1Mu->phi(), ref_L1Mu->charge(), ref_L1Mu->hwQual() );
+      nObject++;
     }
+    print("-> total # object: %d\n", nObject);
   }
   printf("\n");
 }
 
 void MuonHLTPrintInfo::PrintRecoChargedCandidateCollection(std::string type, edm::Handle<RecoChargedCandidateCollection>& handle)
 {
-  printf("[MuonHLTPrintInfo::PrintRecoChargedCandidateCollection] type = %s\n", type);
+  cout << "[MuonHLTPrintInfo::PrintRecoChargedCandidateCollection] type = " << type << endl;
 
   int nObject = (int)handle->size();
   printf("# object = %d\n", nObject);
@@ -156,8 +157,8 @@ void MuonHLTPrintInfo::PrintRecoChargedCandidateCollection(std::string type, edm
   {
     reco::RecoChargedCandidateRef ref(handle, i_obj);
 
-    printf("  [%02d object] (pt, eta, phi, charge, trkPt) = (%.3lf, %.3lf, %.3lf, %.3lf, %.3lf)\n",
-           i_obj, ref->pt(), ref->eta(), ref->phi(), ref->charge(), ref->track()->pt() );
+    printf("  [%02d object] (pt, eta, phi, charge) = (%.3lf, %.3lf, %.3lf, %.3lf)\n",
+           i_obj, ref->pt(), ref->eta(), ref->phi(), ref->charge() );
   }
 
   printf("\n");
