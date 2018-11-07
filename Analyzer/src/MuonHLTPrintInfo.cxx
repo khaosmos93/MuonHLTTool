@@ -137,7 +137,7 @@ void MuonHLTPrintInfo::PrintMuonBxCollection(std::string type, edm::Handle<l1t::
     for(auto it=handle->begin(ibx); it!=handle->end(ibx); it++)
     {
       l1t::MuonRef ref_L1Mu( handle, distance(handle->begin(handle->getFirstBX()) , it) );
-      cout << "  [" << nObject << " object] (pt, eta, phi, charge, quality) = (" <<
+      cout << "  [" << nObject << " object] (pt, eta, phi, charge, quality) = ("
            << ref_L1Mu->pt() << ", "
            << ref_L1Mu->eta() << ", "
            << ref_L1Mu->phi() << ", "
