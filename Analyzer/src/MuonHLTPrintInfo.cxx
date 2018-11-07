@@ -36,6 +36,12 @@ private:
   bool printL2Muon_;
   bool printL1Muon_;
 
+  bool printIterL3OI_;
+  bool printIterL3IOFromL2_;
+  bool printIterL3FromL2_;
+  bool printIterL3IOFromL1_;
+  bool printIterL3MuonNoID_;
+
   void PrintMuonBxCollection(std::string type, edm::Handle<l1t::MuonBxCollection>& handle);
   void PrintRecoChargedCandidateCollection(std::string type, edm::Handle<RecoChargedCandidateCollection>& handle);
 };
