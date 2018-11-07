@@ -89,7 +89,7 @@ t_iterL3OI_          ( consumes< std::vector<reco::MuonTrackLinks> >      (iConf
 t_iterL3IOFromL2_    ( consumes< std::vector<reco::MuonTrackLinks> >      (iConfig.getUntrackedParameter<edm::InputTag>("iterL3IOFromL2"    )) ),
 t_iterL3FromL2_      ( consumes< std::vector<reco::MuonTrackLinks> >      (iConfig.getUntrackedParameter<edm::InputTag>("iterL3FromL2"      )) ),
 t_iterL3IOFromL1_    ( consumes< std::vector<reco::Track> >               (iConfig.getUntrackedParameter<edm::InputTag>("iterL3IOFromL1"    )) ),
-t_iterL3MuonNoID_    ( consumes< std::vector<reco::Muon> >                (iConfig.getUntrackedParameter<edm::InputTag>("iterL3MuonNoID"    )) ),
+t_iterL3MuonNoID_    ( consumes< std::vector<reco::Muon> >                (iConfig.getUntrackedParameter<edm::InputTag>("iterL3MuonNoID"    )) )
 {
   printL3Muon_ = iConfig.getUntrackedParameter<bool>("printL3Muon");
   printL2Muon_ = iConfig.getUntrackedParameter<bool>("printL2Muon");
@@ -134,17 +134,20 @@ void MuonHLTPrintInfo::PrintMuonBxCollection(std::string type, edm::Handle<l1t::
     if(ibx != 0) continue; // -- only take when ibx == 0 -- //
 
     int nObject = 0;
-    for(auto it=handle->bigin(ibx); it!=handle->end(ibx); it++)
+    for(auto it=handle->begin(ibx); it!=handle->end(ibx); it++)
     {
       l1t::MuonRef ref_L1Mu( handle, distance(handle->begin(handle->getFirstBX()) , it) );
-      printf("  [%02d object] (pt, eta, phi, charge, quality) = (%.3lf, %.3lf, %.3lf, %.3lf, %.3lf)\n",
-             nObject, ref_L1Mu->pt(), ref_L1Mu->eta(), ref_L1Mu->phi(), ref_L1Mu->charge(), ref_L1Mu->hwQual() );
-
+      cout << "  [" << nObject << " object] (pt, eta, phi, charge, quality) = (" <<
+           << ref_L1Mu->pt() << ", "
+           << ref_L1Mu->eta() << ", "
+           << ref_L1Mu->phi() << ", "
+           << ref_L1Mu->charge() << ", "
+           << ref_L1Mu->hwQual() << ")" << endl;
       nObject++;
     }
-    print("-> total # object: %d\n", nObject);
+    cout << "-> total # object: " << nObject << endl;
   }
-  printf("\n");
+  cout << endl;
 }
 
 void MuonHLTPrintInfo::PrintRecoChargedCandidateCollection(std::string type, edm::Handle<RecoChargedCandidateCollection>& handle)
@@ -157,11 +160,14 @@ void MuonHLTPrintInfo::PrintRecoChargedCandidateCollection(std::string type, edm
   {
     reco::RecoChargedCandidateRef ref(handle, i_obj);
 
-    printf("  [%02d object] (pt, eta, phi, charge) = (%.3lf, %.3lf, %.3lf, %.3lf)\n",
-           i_obj, ref->pt(), ref->eta(), ref->phi(), ref->charge() );
+    cout << "  [" << i_obj << " object] (pt, eta, phi, charge) = ("
+         << ref->pt() << ", "
+         << ref->eta() << ", "
+         << ref->phi() << ", "
+         << ref->charge() << ")" << endl;
   }
 
-  printf("\n");
+  cout << endl;
 }
 
 DEFINE_FWK_MODULE(MuonHLTPrintInfo);
