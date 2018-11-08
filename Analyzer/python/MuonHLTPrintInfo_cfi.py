@@ -11,6 +11,7 @@ muonHLTPrintInfo = cms.EDAnalyzer("MuonHLTPrintInfo",
     iterL3OI        = cms.untracked.InputTag("hltL3MuonsIterL3OI", "", "MYHLT"),
     iterL3IOFromL2  = cms.untracked.InputTag("hltL3MuonsIterL3IO", "", "MYHLT"),
     iterL3FromL2    = cms.untracked.InputTag("hltIterL3MuonsFromL2LinksCombination", "", "MYHLT"),
+    L1MuonsPt0      = cms.untracked.InputTag("hltL1MuonsPt0"),
     iterL3IOFromL1  = cms.untracked.InputTag("hltIter3IterL3FromL1MuonMerged", "", "MYHLT"),
     iterL3MuonNoID  = cms.untracked.InputTag("hltIterL3MuonsNoID", "", "MYHLT"),
 
@@ -22,6 +23,10 @@ muonHLTPrintInfo = cms.EDAnalyzer("MuonHLTPrintInfo",
     printIterL3OI        = cms.untracked.bool(False),
     printIterL3IOFromL2  = cms.untracked.bool(False),
     printIterL3FromL2    = cms.untracked.bool(False),
+    printL1MuonsPt0      = cms.untracked.bool(False),
     printIterL3IOFromL1  = cms.untracked.bool(False),
     printIterL3MuonNoID  = cms.untracked.bool(False),
+
+    printTriggerObjects = cms.untracked.bool(False),
+    triggerObjects = cms.untracked.vstring(""),
 )

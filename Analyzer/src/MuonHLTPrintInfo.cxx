@@ -62,6 +62,7 @@ private:
   edm::EDGetTokenT< std::vector<reco::MuonTrackLinks> >      t_iterL3OI_;
   edm::EDGetTokenT< std::vector<reco::MuonTrackLinks> >      t_iterL3IOFromL2_;
   edm::EDGetTokenT< std::vector<reco::MuonTrackLinks> >      t_iterL3FromL2_;
+  edm::EDGetTokenT< l1t::MuonBxCollection >                  t_L1MuonsPt0_;
   edm::EDGetTokenT< std::vector<reco::Track> >               t_iterL3IOFromL1_;
   edm::EDGetTokenT< std::vector<reco::Muon> >                t_iterL3MuonNoID_;
 
@@ -74,6 +75,11 @@ private:
   bool printIterL3FromL2_;
   bool printIterL3IOFromL1_;
   bool printIterL3MuonNoID_;
+
+  bool printL1MuonsPt0_;
+
+  vector< std::string > triggerObjectsFilters_;
+  bool printTriggerObjects_;
 
   void PrintMuonBxCollection(std::string type,               edm::Handle<l1t::MuonBxCollection>& handle);
   void PrintRecoChargedCandidateCollection(std::string type, edm::Handle<RecoChargedCandidateCollection>& handle);
@@ -93,6 +99,7 @@ t_L1Muon_            ( consumes< l1t::MuonBxCollection  >                 (iConf
 t_iterL3OI_          ( consumes< std::vector<reco::MuonTrackLinks> >      (iConfig.getUntrackedParameter<edm::InputTag>("iterL3OI"          )) ),
 t_iterL3IOFromL2_    ( consumes< std::vector<reco::MuonTrackLinks> >      (iConfig.getUntrackedParameter<edm::InputTag>("iterL3IOFromL2"    )) ),
 t_iterL3FromL2_      ( consumes< std::vector<reco::MuonTrackLinks> >      (iConfig.getUntrackedParameter<edm::InputTag>("iterL3FromL2"      )) ),
+t_L1MuonsPt0_        ( consumes< l1t::MuonBxCollection >                  (iConfig.getUntrackedParameter<edm::InputTag>("L1MuonsPt0"        )) ),
 t_iterL3IOFromL1_    ( consumes< std::vector<reco::Track> >               (iConfig.getUntrackedParameter<edm::InputTag>("iterL3IOFromL1"    )) ),
 t_iterL3MuonNoID_    ( consumes< std::vector<reco::Muon> >                (iConfig.getUntrackedParameter<edm::InputTag>("iterL3MuonNoID"    )) )
 {
@@ -105,6 +112,11 @@ t_iterL3MuonNoID_    ( consumes< std::vector<reco::Muon> >                (iConf
   printIterL3FromL2_    = iConfig.getUntrackedParameter<bool>("printIterL3FromL2");
   printIterL3IOFromL1_  = iConfig.getUntrackedParameter<bool>("printIterL3IOFromL1");
   printIterL3MuonNoID_  = iConfig.getUntrackedParameter<bool>("printIterL3MuonNoID");
+
+  printL1MuonsPt0_      = iConfig.getUntrackedParameter<bool>("printL1MuonsPt0");
+
+  triggerObjectsFilters_ = iConfig.getUntrackedParameter< vector<std::string> >("triggerObjects");
+  printTriggerObjects_   = iConfig.getUntrackedParameter<bool>("printTriggerObjects");
 }
 
 void MuonHLTPrintInfo::analyze(const edm::Event& iEvent, const edm::EventSetup& iEventSetup)
@@ -136,6 +148,11 @@ void MuonHLTPrintInfo::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   if( printIterL3FromL2_ && iEvent.getByToken(t_iterL3FromL2_, h_iterL3FromL2) )
     PrintMuonTrackLinksCollection( "IterL3FromL2 (OI+IO)", h_iterL3FromL2 );
 
+  // -- L1MuonsPt0 (seeds for IOFromL1)
+  edm::Handle<l1t::MuonBxCollection> h_L1MuonsPt0;
+  if( printL1MuonsPt0_ && iEvent.getByToken(t_L1MuonsPt0_, h_L1MuonsPt0) )
+    PrintMuonBxCollection("L1MuonsPt0 (seed for IOFromL1)", h_L1MuonsPt0);
+
   // -- IOFromL1
   edm::Handle< std::vector<reco::Track> > h_iterL3IOFromL1;
   if( printIterL3IOFromL1_ && iEvent.getByToken(t_iterL3IOFromL1_, h_iterL3IOFromL1) )
@@ -150,14 +167,14 @@ void MuonHLTPrintInfo::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   if( printL3Muon_ && iEvent.getByToken(t_L3Muon_, h_L3Muon) )
     PrintRecoChargedCandidateCollection("L3Muon", h_L3Muon);
 
-  edm::Handle<trigger::TriggerEvent> h_triggerEvent;
-  if( iEvent.getByToken(t_triggerEvent_, h_triggerEvent) )
-  {
-    PrintTriggerObjectInfo("hltL3fL1DoubleMu155fPreFiltered8::MYHLT", h_triggerEvent );
-    PrintTriggerObjectInfo("hltL3fL1DoubleMu155fFiltered17::MYHLT",   h_triggerEvent );
-    PrintTriggerObjectInfo("hltDiMuon178RelTrkIsoFiltered0p4::MYHLT", h_triggerEvent );
-  }
+  // -- trigger objects
 
+  edm::Handle<trigger::TriggerEvent> h_triggerEvent;
+  if( printTriggerObjects_ && iEvent.getByToken(t_triggerEvent_, h_triggerEvent) )
+  {
+    for(const auto& filter: triggerObjectsFilters_ )
+      PrintTriggerObjectInfo(filter, h_triggerEvent );
+  }
 
   printf("\n");
 }
