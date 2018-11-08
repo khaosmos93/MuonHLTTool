@@ -75,8 +75,13 @@ private:
   bool printIterL3IOFromL1_;
   bool printIterL3MuonNoID_;
 
-  void PrintMuonBxCollection(std::string type, edm::Handle<l1t::MuonBxCollection>& handle);
+  void PrintMuonBxCollection(std::string type,               edm::Handle<l1t::MuonBxCollection>& handle);
   void PrintRecoChargedCandidateCollection(std::string type, edm::Handle<RecoChargedCandidateCollection>& handle);
+  void PrintMuonTrackLinksCollection(std::string type,       edm::Handle< std::vector<reco::MuonTrackLinks> > handle );
+  void PrintTrackCollection(std::string type,                edm::Handle< std::vector<reco::Track> > handle );
+  void PrintMuonCollection(std::string type,                 edm::Handle< std::vector<reco::Muon> > handle );
+
+  void PrintTriggerObjectInfo(std::string filterName, edm::Handle<trigger::TriggerEvent>& h_triggerEvent);
 };
 
 MuonHLTPrintInfo::MuonHLTPrintInfo(const edm::ParameterSet& iConfig):
@@ -116,10 +121,42 @@ void MuonHLTPrintInfo::analyze(const edm::Event& iEvent, const edm::EventSetup& 
   if( printL2Muon_ && iEvent.getByToken(t_L2Muon_, h_L2Muon) )
     PrintRecoChargedCandidateCollection("L2Muon", h_L2Muon);
 
+  // -- OI (from L2)
+  edm::Handle< std::vector<reco::MuonTrackLinks> > h_iterL3OI;
+  if( printIterL3OI_ && iEvent.getByToken(t_iterL3OI_, h_iterL3OI) )
+    PrintMuonTrackLinksCollection( "IterL3OI", h_iterL3OI );
+
+  // -- IOFromL2
+  edm::Handle< std::vector<reco::MuonTrackLinks> > h_iterL3IOFromL2;
+  if( printIterL3IOFromL2_ && iEvent.getByToken(t_iterL3IOFromL2_, h_iterL3IOFromL2) )
+    PrintMuonTrackLinksCollection( "IterL3IOFromL2", h_iterL3IOFromL2 );
+
+  // -- (OI+IO)FromL2
+  edm::Handle< std::vector<reco::MuonTrackLinks> > h_iterL3FromL2;
+  if( printIterL3FromL2_ && iEvent.getByToken(t_iterL3FromL2_, h_iterL3FromL2) )
+    PrintMuonTrackLinksCollection( "IterL3FromL2 (OI+IO)", h_iterL3FromL2 );
+
+  // -- IOFromL1
+  edm::Handle< std::vector<reco::Track> > h_iterL3IOFromL1;
+  if( printIterL3IOFromL1_ && iEvent.getByToken(t_iterL3IOFromL1_, h_iterL3IOFromL1) )
+    PrintTrackCollection( "IterL3IOFromL1", h_iterL3IOFromL1 );
+
+  edm::Handle< std::vector<reco::Muon> > h_iterL3MuonNoID;
+  if( printIterL3MuonNoID_ && iEvent.getByToken(t_iterL3MuonNoID_, h_iterL3MuonNoID) )
+    PrintMuonCollection( "IterL3MuonNoID", h_iterL3MuonNoID );
+
   // -- L3 muon
   edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
   if( printL3Muon_ && iEvent.getByToken(t_L3Muon_, h_L3Muon) )
     PrintRecoChargedCandidateCollection("L3Muon", h_L3Muon);
+
+  edm::Handle<trigger::TriggerEvent> h_triggerEvent;
+  if( iEvent.getByToken(t_triggerEvent_, h_triggerEvent) )
+  {
+    PrintTriggerObjectInfo("hltL3fL1DoubleMu155fPreFiltered8::MYHLT", h_triggerEvent );
+    PrintTriggerObjectInfo("hltL3fL1DoubleMu155fFiltered17::MYHLT",   h_triggerEvent );
+    PrintTriggerObjectInfo("hltDiMuon178RelTrkIsoFiltered0p4::MYHLT", h_triggerEvent );
+  }
 
 
   printf("\n");
@@ -136,7 +173,7 @@ void MuonHLTPrintInfo::PrintMuonBxCollection(std::string type, edm::Handle<l1t::
     int nObject = 0;
     for(auto it=handle->begin(ibx); it!=handle->end(ibx); it++)
     {
-      l1t::MuonRef ref_L1Mu( handle, distance(handle->begin(handle->getFirstBX()) , it) );
+      l1t::MuonRef ref_L1Mu( handle, distance(handle->begin(handle->getFirstBX()), it) );
       cout << "  [" << nObject << " object] (pt, eta, phi, charge, quality) = ("
            << ref_L1Mu->pt() << ", "
            << ref_L1Mu->eta() << ", "
@@ -155,7 +192,7 @@ void MuonHLTPrintInfo::PrintRecoChargedCandidateCollection(std::string type, edm
   cout << "[MuonHLTPrintInfo::PrintRecoChargedCandidateCollection] type = " << type << endl;
 
   int nObject = (int)handle->size();
-  printf("# object = %d\n", nObject);
+  cout << "# object = " << nObject << endl;
   for(int i_obj=0; i_obj<nObject; i_obj++)
   {
     reco::RecoChargedCandidateRef ref(handle, i_obj);
@@ -167,6 +204,91 @@ void MuonHLTPrintInfo::PrintRecoChargedCandidateCollection(std::string type, edm
          << ref->charge() << ")" << endl;
   }
 
+  cout << endl;
+}
+
+void MuonHLTPrintInfo::PrintMuonTrackLinksCollection(std::string type, edm::Handle< std::vector<reco::MuonTrackLinks> > handle )
+{
+  cout << "[MuonHLTPrintInfo::PrintMuonTrackLinksCollection] type = " << type << endl;
+
+  int nObject = (int)handle->size();
+  cout << "# object = " << nObject << endl;
+  for(int i_obj=0; i_obj<nObject; i_obj++)
+  {
+    if( handle->at(i_obj).trackerTrack().isNonnull() )
+    {
+      cout << "  [" << i_obj << " object] trackertrack's (pt, eta, phi, charge) = ("
+           << handle->at(i_obj).trackerTrack()->pt() << ", "
+           << handle->at(i_obj).trackerTrack()->eta() << ", "
+           << handle->at(i_obj).trackerTrack()->phi() << ", "
+           << handle->at(i_obj).trackerTrack()->charge() << ")" << endl;
+    }
+  }
+  cout << endl;
+}
+
+void MuonHLTPrintInfo::PrintTrackCollection(std::string type, edm::Handle< std::vector<reco::Track> > handle )
+{
+  cout << "[MuonHLTPrintInfo::PrintTrackCollection] type = " << type << endl;
+
+  int nObject = (int)handle->size();
+  cout << "# object = " << nObject << endl;
+  for(int i_obj=0; i_obj<nObject; i_obj++)
+  {
+    cout << "  [" << i_obj << " object] (pt, eta, phi, charge) = ("
+         << handle->at(i_obj).pt() << ", "
+         << handle->at(i_obj).eta() << ", "
+         << handle->at(i_obj).phi() << ", "
+         << handle->at(i_obj).charge() << ")" << endl;
+  }
+  cout << endl;
+}
+
+void MuonHLTPrintInfo::PrintMuonCollection(std::string type, edm::Handle< std::vector<reco::Muon> > handle )
+{
+  cout << "[MuonHLTPrintInfo::PrintMuonCollection] type = " << type << endl;
+
+  int nObject = (int)handle->size();
+  cout << "# object = " << nObject << endl;
+  for(int i_obj=0; i_obj<nObject; i_obj++)
+  {
+    cout << "  [" << i_obj << " object] (pt, eta, phi, charge) = ("
+         << handle->at(i_obj).pt() << ", "
+         << handle->at(i_obj).eta() << ", "
+         << handle->at(i_obj).phi() << ", "
+         << handle->at(i_obj).charge() << ")" << endl;
+  }
+  cout << endl;
+}
+
+void MuonHLTPrintInfo::PrintTriggerObjectInfo(std::string filterName, edm::Handle<trigger::TriggerEvent>& h_triggerEvent)
+{
+  cout << "[MuonHLTPrintInfo::PrintTriggerObjectInfo] filter name = " << filterName << endl;
+  
+  const trigger::size_type nFilters(h_triggerEvent->sizeFilters());
+  for( trigger::size_type i_filter=0; i_filter<nFilters; i_filter++)
+  {
+    std::string filterTag = h_triggerEvent->filterTag(i_filter).encode();
+
+    if( filterTag == filterName )
+    {
+      trigger::Keys objectKeys = h_triggerEvent->filterKeys(i_filter);
+      Int_t nObj = objectKeys.size();
+      cout << "# objects = " << nObj << endl;
+
+      const trigger::TriggerObjectCollection& triggerObjects(h_triggerEvent->getObjects());
+
+      for( trigger::size_type i_key=0; i_key<nObj; i_key++) {
+        trigger::size_type objKey = objectKeys.at(i_key);
+        const trigger::TriggerObject& triggerObj(triggerObjects[objKey]);
+
+        cout << "  [" << i_key << " object] (pt, eta, phi, charge) = ("
+             << triggerObj.pt() << ", "
+             << triggerObj.eta() << ", "
+             << triggerObj.phi() << ")" << endl;
+      }
+    }
+  }
   cout << endl;
 }
 

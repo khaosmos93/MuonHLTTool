@@ -4,7 +4,7 @@ process = cms.Process("MuonHLT")
 
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
-        'file:/afs/cern.ch/user/k/kplee/work/private/MuonHLT/v20181107_v01_RemoveIOFromL1/output_skimmed.root'),
+        'file:/afs/cern.ch/user/k/kplee/work/private/MuonHLT/v20181107_v01_RemoveIOFromL1/output_NoIOFromL1_skimmed.root'),
     secondaryFileNames = cms.untracked.vstring(),
     # lumisToProcess = cms.untracked.VLuminosityBlockRange('258158:1-258158:1786'),
 )

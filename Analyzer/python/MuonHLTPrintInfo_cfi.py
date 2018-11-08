@@ -1,12 +1,12 @@
 import FWCore.ParameterSet.Config as cms
 
 muonHLTPrintInfo = cms.EDAnalyzer("MuonHLTPrintInfo",
-    triggerResults = cms.untracked.InputTag("TriggerResults::HLT"),
-    triggerEvent = cms.untracked.InputTag("hltTriggerSummaryAOD::HLT"),
+    triggerResults = cms.untracked.InputTag("TriggerResults::MYHLT"),
+    triggerEvent = cms.untracked.InputTag("hltTriggerSummaryAOD::MYHLT"),
 
     L3Muon = cms.untracked.InputTag("hltIterL3MuonCandidates"),
     L2Muon = cms.untracked.InputTag("hltL2MuonCandidates"),
-    L1Muon = cms.untracked.InputTag("hltGmtStage2Digis", "Muon"), # -- if HLT re-run --#
+    L1Muon = cms.untracked.InputTag("hltGtStage2Digis", "Muon"),
 
     iterL3OI        = cms.untracked.InputTag("hltL3MuonsIterL3OI", "", "MYHLT"),
     iterL3IOFromL2  = cms.untracked.InputTag("hltL3MuonsIterL3IO", "", "MYHLT"),
