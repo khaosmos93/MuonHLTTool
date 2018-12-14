@@ -1,0 +1,190 @@
+{
+  "Sample": [
+  {
+    "tag": "ZMuMu_M50to120",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["/Users/KyeongPil_Lee/ServiceWorks/ExampleROOTFile/MuonHLTNtuple_ZMuMu_M50to120.root"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M200to400",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M400to800",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M800to1400",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M1400to2300",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M2300to3500",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M3500to4500",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M4500to6000",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "ZMuMu_M6000toInf",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+
+
+  {
+    "tag": "WJetsToLNu",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+
+
+  {
+    "tag": "ttbar",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+
+
+  {
+    "tag": "MuEnrichedQCD_Pt15to20",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt20to30",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt30to50",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt50to80",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt80to120",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt120to170",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt170to300",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt300to470",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  },
+
+  {
+    "tag": "MuEnrichedQCD_Pt470to600",
+    "isMC": 1,
+    "xSec": 1.0,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["asdf"],
+    "comment": ""
+  }
+]
+
+}
