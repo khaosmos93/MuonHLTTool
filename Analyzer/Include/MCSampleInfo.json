@@ -3,82 +3,91 @@
   {
     "tag": "ZMuMu_M50to120",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 1975.0,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["/Users/KyeongPil_Lee/ServiceWorks/ExampleROOTFile/MuonHLTNtuple_ZMuMu_M50to120.root"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_ZToMuMu_M50to120_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
+    "tag": "ZMuMu_M120to200",
+    "isMC": 1,
+    "xSec": 19.32,
+    "sumWeight": 1.0,
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M120to200_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
+  },
+
+    {
     "tag": "ZMuMu_M200to400",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 2.731,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M200to400_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M400to800",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 0.241,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M400to800_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M800to1400",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 1.678E-2,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M800to1400_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M1400to2300",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 1.39E-3,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M1400to2300_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M2300to3500",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 0.8948E-4,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M2300to3500_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M3500to4500",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 0.4135E-5,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M3500to4500_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M4500to6000",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 4.56E-7,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M4500to6000_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
   {
     "tag": "ZMuMu_M6000toInf",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 2.06E-8,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_ZToMuMu_M6000toInf_Powheg/*.root"],
+    "comment": "Cross section: from Z'->mumu AN note (AN2016_391_v9)"
   },
 
 
@@ -86,10 +95,10 @@
   {
     "tag": "WJetsToLNu",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 61526.7,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_WJetsToLNu_Madgraph/*.root"],
+    "comment": "NNLO cross section (3-flavors)"
   },
 
 
@@ -97,10 +106,10 @@
   {
     "tag": "ttbar",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 831.76,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_TT_Powheg/*.root"],
+    "comment": "NNLO+NNLL cross section"
   },
 
 
@@ -108,82 +117,82 @@
   {
     "tag": "MuEnrichedQCD_Pt15to20",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 3336011.0,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_MuEnrichedQCD_Pt15to20/*.root"],
+    "comment": "Cross section from McM: 1267000000 * 0.002633"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt20to30",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 3987854.9,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_MuEnrichedQCD_Pt20to30/*.root"],
+    "comment": "Cross section from McM: 562700000 * 0.007087"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt30to50",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 1705381.0,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_MuEnrichedQCD_Pt30to50/*.root"],
+    "comment": "Cross section from McM: 139900000 * 0.01219"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt50to80",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 393820.0,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_MuEnrichedQCD_Pt50to80/*.root"],
+    "comment": "Cross section from McM: 19400000 * 0.02037"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt80to120",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 106889.4,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_MuEnrichedQCD_Pt80to120/*.root"],
+    "comment": "Cross section from McM: 2762000 * 0.0387"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt120to170",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 23773.61,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181121_RAWOnly_92X_MuEnrichedQCD_Pt120to170/*.root"],
+    "comment": "Cross section from McM: 479500 * 0.04958"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt170to300",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 8292.982,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_MuEnrichedQCD_Pt170to300/*.root"],
+    "comment": "Cross section from McM: 118100 * 0.07022"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt300to470",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 797.35269,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_MuEnrichedQCD_Pt300to470/*.root"],
+    "comment": "Cross section from McM: 7820.25 * 0.10196"
   },
 
   {
     "tag": "MuEnrichedQCD_Pt470to600",
     "isMC": 1,
-    "xSec": 1.0,
+    "xSec": 56.588336,
     "sumWeight": 1.0,
-    "list_ntuplePath": ["asdf"],
-    "comment": ""
+    "list_ntuplePath": ["/scratch/kplee/MuonHLTNtuple/crab_MuonHLTNtuple_v20181101_RAWOnly_92X_MuEnrichedQCD_Pt470to600/*.root"],
+    "comment": "Cross section from McM: 648.8 * 0.08722"
   }
 ]
 
