@@ -1,4 +1,10 @@
 #include <Include/MuonHLTTool.h>
+#include <TString.h>
+#include <TChain.h>
+#include <TH1D.h>
+#include <TFile.h>
+#include <TStopwatch.h>
+#include <iostream>
 
 class SumWeightProducer
 {
@@ -66,11 +72,11 @@ private:
     Double_t cpuTime = timer_.CpuTime();
     Double_t realTime = timer_.RealTime();
 
-    cout << "************************************************" << endl;
-    cout << "Total real time: " << realTime << " (seconds)" << endl;
-    cout << "Total CPU time:  " << cpuTime << " (seconds)" << endl;
-    cout << "  CPU time / real time = " << cpuTime / realTime << endl;
-    cout << "************************************************" << endl;
+    std::cout << "************************************************" << std::endl;
+    std::cout << "Total real time: " << realTime << " (seconds)" << std::endl;
+    std::cout << "Total CPU time:  " << cpuTime << " (seconds)" << std::endl;
+    std::cout << "  CPU time / real time = " << cpuTime / realTime << std::endl;
+    std::cout << "************************************************" << std::endl;
   }
 };
 
