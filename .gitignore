@@ -1,6 +1,13 @@
-Local/
-CRABDir/
+# log
 *.log
+
+# local files
+Local/
+
+# PDF
+*.pdf
+
+# python
 *.pyc
 
 # Prerequisites
