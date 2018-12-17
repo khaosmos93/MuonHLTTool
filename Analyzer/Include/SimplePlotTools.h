@@ -746,6 +746,7 @@ public:
       h_ratio->SetFillColorAlpha(kWhite, 0); 
       h_ratio->SetTitle("");
       if( i == 0 ) SetAxis_BottomPad(h_ratio->GetXaxis(), h_ratio->GetYaxis(), titleX_, titleRatio_);
+      if( setRangeX_ )     h_ratio->GetXaxis()->SetRangeUser( minX_, maxX_ );
       if( setRangeRatio_ ) h_ratio->GetYaxis()->SetRangeUser( minRatio_, maxRatio_ );
     }
 
