@@ -71,6 +71,7 @@ private:
   {
     TString histName = "h_"+pathName;
     TH1D* h_temp = new TH1D(histName, "", 1, 0, 1);
+    h_temp->Sumw2();
 
     // -- always same order
     vec_pathName_.push_back( pathName );
