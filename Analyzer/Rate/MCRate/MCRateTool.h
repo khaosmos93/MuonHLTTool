@@ -1,3 +1,12 @@
+#include <TString.h>
+#include <TChain.h>
+#include <TH1D.h>
+#include <TFile.h>
+#include <TStopwatch.h>
+
+#include <iostream>
+#include <vector>
+
 #include <Include/MuonHLTTool.h>
 
 class HistContainer
@@ -95,7 +104,7 @@ public:
 
     StartTimer();
 
-    printf("[MCRateTool::Run] Target inst. lumi for rate estimation: %.1e (/pb/s)\n", instLumi_);
+    printf("[MCRateTool::Run] Target inst. lumi for rate estimation: %.1e (pb-1 * s-1)\n", instLumi_);
 
     TChain *chain = new TChain("ntupler/ntuple");
     for(const auto& ntuplePath : vec_ntuplePath_ )
@@ -109,6 +118,8 @@ public:
     Int_t nEvent = chain->GetEntries();
     for(Int_t i_ev=0; i_ev<nEvent; i_ev++)
     {
+      MuonHLT::loadBar(i_ev+1, nEvent, 100, 100);
+
       chain->GetEvent(i_ev);
 
       Double_t normFactor = (xSec_ * instLumi_) / sumWeight_;
@@ -133,7 +144,7 @@ private:
     xSec_ = -999;
     sumWeight_ = -999;
 
-    instLumi_ = 1.0;
+    instLumi_ = 0.02; // -- pb-1 * s-1 = 2.0e34 cm-2*s-1
   }
 
   Bool_t IsReady()

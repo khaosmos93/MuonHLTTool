@@ -67,7 +67,7 @@ if __name__ == '__main__':
         cmd_run = "root -b -q %s++ >&%s.log&" % (ROOTCodeName, ROOTCodeName.split(".cxx")[0])
         f_script.write(cmd_run + "\n")
 
-        break
+        # break
 
     f_script.write('\necho "All jobs are submitted"\n\n')
     f_script.close()
