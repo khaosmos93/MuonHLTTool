@@ -1130,10 +1130,30 @@ bool MuonHLTNtupler::isNewHighPtMuon(const reco::Muon& muon, const reco::Vertex&
   bool muValHits = ( muon.globalTrack()->hitPattern().numberOfValidMuonHits()>0 ||
                      muon.tunePMuonBestTrack()->hitPattern().numberOfValidMuonHits()>0 );
 
+
+  //-- For 80X and 94X --//
+  float minDistanceFromEdge = 10.0;
+  unsigned int stationMask = 0;
+  for( auto& chamberMatch : muon.matches() )
+    {
+      if (chamberMatch.detector()!=MuonSubdetId::DT && chamberMatch.detector()!=MuonSubdetId::CSC) continue;
+      float edgeX = chamberMatch.edgeX;
+      float edgeY = chamberMatch.edgeY;
+      // check we if the trajectory is well within the acceptance
+      if(edgeX<0 && fabs(edgeX)>fabs(minDistanceFromEdge) &&
+   edgeY<0 && fabs(edgeY)>fabs(minDistanceFromEdge))
+  stationMask |= 1<<( (chamberMatch.station()-1)+4*(chamberMatch.detector()-1) );
+    }
+  unsigned int expectedNnumberOfMatchedStations = 0;
+  for(unsigned int i=0; i<8; ++i)
+    if (stationMask&(1<<i)) expectedNnumberOfMatchedStations++;
+
+
   bool muMatchedSt = muon.numberOfMatchedStations()>1;
   if(!muMatchedSt) {
     if( muon.isTrackerMuon() && muon.numberOfMatchedStations()==1 ) {
-      if( muon.expectedNnumberOfMatchedStations()<2 ||
+      // if( muon.expectedNnumberOfMatchedStations()<2 ||  // for 80X and 94X
+      if( expectedNnumberOfMatchedStations<2 ||
           !(muon.stationMask()==1 || muon.stationMask()==16) ||
           muon.numberOfMatchedRPCLayers()>2
         )
