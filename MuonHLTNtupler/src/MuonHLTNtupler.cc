@@ -18,6 +18,7 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "DataFormats/HLTReco/interface/TriggerObject.h"
+#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
 #include "DataFormats/Luminosity/interface/LumiDetails.h"
 #include "DataFormats/Math/interface/deltaR.h"
@@ -53,15 +54,15 @@
 using namespace std;
 using namespace reco;
 using namespace edm;
-
+using namespace pat;
 
 MuonHLTNtupler::MuonHLTNtupler(const edm::ParameterSet& iConfig):
 t_offlineMuon_       ( consumes< edm::View<reco::Muon> >                  (iConfig.getUntrackedParameter<edm::InputTag>("offlineMuon"       )) ),
 t_offlineVertex_     ( consumes< reco::VertexCollection >                 (iConfig.getUntrackedParameter<edm::InputTag>("offlineVertex"     )) ),
 t_triggerResults_    ( consumes< edm::TriggerResults >                    (iConfig.getUntrackedParameter<edm::InputTag>("triggerResults"    )) ),
-t_triggerEvent_      ( consumes< trigger::TriggerEvent >                  (iConfig.getUntrackedParameter<edm::InputTag>("triggerEvent"      )) ),
+t_triggerEvent_      ( mayConsume< trigger::TriggerEvent >                (iConfig.getUntrackedParameter<edm::InputTag>("triggerEvent"      )) ), // -- not used in miniAOD case
 t_myTriggerResults_  ( consumes< edm::TriggerResults >                    (iConfig.getUntrackedParameter<edm::InputTag>("myTriggerResults"  )) ),
-t_myTriggerEvent_    ( consumes< trigger::TriggerEvent >                  (iConfig.getUntrackedParameter<edm::InputTag>("myTriggerEvent"    )) ),
+t_myTriggerEvent_    ( mayConsume< trigger::TriggerEvent >                (iConfig.getUntrackedParameter<edm::InputTag>("myTriggerEvent"    )) ), // -- not used in miniAOD case
 t_L3Muon_            ( consumes< reco::RecoChargedCandidateCollection >   (iConfig.getUntrackedParameter<edm::InputTag>("L3Muon"            )) ),
 t_L2Muon_            ( consumes< reco::RecoChargedCandidateCollection >   (iConfig.getUntrackedParameter<edm::InputTag>("L2Muon"            )) ),
 t_L1Muon_            ( consumes< l1t::MuonBxCollection  >                 (iConfig.getUntrackedParameter<edm::InputTag>("L1Muon"            )) ),
@@ -80,9 +81,9 @@ t_genEventInfo_      ( consumes< GenEventInfoProduct >                    (iConf
 t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) ),
 
 isMiniAOD_               ( iConfig.existsAs<bool>("isMiniAOD") ? iConfig.getParameter<bool>("isMiniAOD") : false),
-t_triggerObject_miniAOD_ ( iConfig.existsAs<edm::InputTag>("triggerObject_miniAOD") ? consumes< std::vector<pat::TriggerObjectStandAlone> > (iConfig.getUntrackedParameter<edm::InputTag>("triggerObject_miniAOD")) : false )
+t_triggerObject_miniAOD_ ( consumes< std::vector<pat::TriggerObjectStandAlone> > (iConfig.getUntrackedParameter<edm::InputTag>("triggerObject_miniAOD")))
 {
-
+  cout << "isMiniAOD_ = " << isMiniAOD_ << endl;
 }
 
 void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iSetup)
@@ -642,7 +643,7 @@ void MuonHLTNtupler::Fill_Muon(const edm::Event &iEvent)
       muon_py_[_nMuon]  = mu->py();
       muon_pz_[_nMuon]  = mu->pz();
       muon_charge_[_nMuon] = mu->charge();
-      if( isMiniAOD_ ) muon_dB_[_nMuon] = mu->dB(); // -- dB is only availabe in pat::Muon -- //
+      // if( isMiniAOD_ ) muon_dB_[_nMuon] = mu->dB(); // -- dB is only availabe in pat::Muon -- //
 
       if( mu->isGlobalMuon() ) muon_isGLB_[_nMuon] = 1;
       if( mu->isStandAloneMuon() ) muon_isSTA_[_nMuon] = 1;
@@ -726,16 +727,8 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
   edm::Handle<edm::TriggerResults>  h_triggerResults;
   edm::Handle<trigger::TriggerEvent> h_triggerEvent;
 
-  if( isMYHLT )
-  {
-    iEvent.getByToken(t_myTriggerResults_, h_triggerResults);
-    iEvent.getByToken(t_myTriggerEvent_,   h_triggerEvent);
-  }
-  else
-  {
-    iEvent.getByToken(t_triggerResults_, h_triggerResults);
-    iEvent.getByToken(t_triggerEvent_,   h_triggerEvent);
-  }
+  if( isMYHLT ) iEvent.getByToken(t_myTriggerResults_, h_triggerResults);
+  else          iEvent.getByToken(t_triggerResults_,   h_triggerResults);
 
   edm::TriggerNames triggerNames = iEvent.triggerNames(*h_triggerResults);
 
@@ -757,6 +750,8 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
 
   if( !isMiniAOD_ ) // -- AOD case
   {
+    if( isMYHLT ) iEvent.getByToken(t_myTriggerEvent_, h_triggerEvent);
+    else          iEvent.getByToken(t_triggerEvent_,   h_triggerEvent);
 
     const trigger::size_type nFilter(h_triggerEvent->sizeFilters());
     for( trigger::size_type i_filter=0; i_filter<nFilter; i_filter++)
@@ -800,7 +795,9 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
     const edm::TriggerNames names = iEvent.triggerNames(*h_triggerResults);
     for( pat::TriggerObjectStandAlone triggerObj : *h_triggerObject)
     {
-      triggerObj.unpackPathNames(names);
+      // triggerObj.unpackPathNames(names);
+      triggerObj.unpackNamesAndLabels(iEvent, *h_triggerResults);
+
       for( size_t i_filter = 0; i_filter < triggerObj.filterLabels().size(); ++i_filter )
       {
         // -- Get the full name of i-th filter -- //
@@ -820,20 +817,26 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
         std::string filterName = triggerObj.filterLabels()[i_filter];
         if( SavedFilterCondition(filterName) )
         {
-          if( isMYHLT )
-          {
-            vec_myFilterName_.push_back( filterName );
-            vec_myHLTObj_pt_.push_back( triggerObj.pt() );
-            vec_myHLTObj_eta_.push_back( triggerObj.eta() );
-            vec_myHLTObj_phi_.push_back( triggerObj.phi() );
-          }
-          else
-          {
-            vec_filterName_.push_back( filterName );
-            vec_HLTObj_pt_.push_back( triggerObj.pt() );
-            vec_HLTObj_eta_.push_back( triggerObj.eta() );
-            vec_HLTObj_phi_.push_back( triggerObj.phi() );
-          }
+          // -- does not support MYHLT for miniAOD for now
+          vec_filterName_.push_back( filterName );
+          vec_HLTObj_pt_.push_back( triggerObj.pt() );
+          vec_HLTObj_eta_.push_back( triggerObj.eta() );
+          vec_HLTObj_phi_.push_back( triggerObj.phi() );
+
+          // if( isMYHLT )
+          // {
+          //   vec_myFilterName_.push_back( filterName );
+          //   vec_myHLTObj_pt_.push_back( triggerObj.pt() );
+          //   vec_myHLTObj_eta_.push_back( triggerObj.eta() );
+          //   vec_myHLTObj_phi_.push_back( triggerObj.phi() );
+          // }
+          // else
+          // {
+          //   vec_filterName_.push_back( filterName );
+          //   vec_HLTObj_pt_.push_back( triggerObj.pt() );
+          //   vec_HLTObj_eta_.push_back( triggerObj.eta() );
+          //   vec_HLTObj_phi_.push_back( triggerObj.phi() );
+          // }
         }
 
       } // -- loop over filters

@@ -44,7 +44,7 @@ else: # -- without HLT rerun
   process.ntupler.lumiScaler       = cms.untracked.InputTag("scalersRawToDigi")
 
   if flag_miniAOD:
-    process.ntupler.isMiniAOD = True
+    process.ntupler.isMiniAOD             = cms.bool(True)
     process.ntupler.offlineVertex         = cms.untracked.InputTag("offlineSlimmedPrimaryVertices")
     process.ntupler.offlineMuon           = cms.untracked.InputTag("slimmedMuons")
     process.ntupler.triggerObject_miniAOD = cms.untracked.InputTag("slimmedPatTrigger")
