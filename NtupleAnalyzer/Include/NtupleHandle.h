@@ -92,6 +92,7 @@ public:
   Int_t           muon_isMedium[ArrSize];
   Int_t           muon_isLoose[ArrSize];
   Int_t           muon_isHighPt[ArrSize];
+  Int_t           muon_isHighPtNew[ArrSize];
   Int_t           muon_isSoft[ArrSize];
   Double_t        muon_iso03_sumPt[ArrSize];
   Double_t        muon_iso03_hadEt[ArrSize];
@@ -124,6 +125,13 @@ public:
   Int_t           muon_nMatchedStation[ArrSize];
   Int_t           muon_nMatchedRPCLayer[ArrSize];
   Int_t           muon_stationMask[ArrSize];
+
+  Int_t muon_simType[ArrSize];
+  Int_t muon_simExtType[ArrSize];
+  Int_t muon_simPdgId[ArrSize];
+  Double_t muon_simPt[ArrSize];
+  Double_t muon_simEta[ArrSize];
+  Double_t muon_simPhi[ArrSize];
 
   // -- L3 muons
   Int_t           nL3Muon;
@@ -240,12 +248,36 @@ public:
     chain_ = chain;
     chain_->SetBranchStatus("*", 0);
 
-    TurnOnBranches_Event();
-    TurnOnBranches_Trigger();
+    // TurnOnBranches_Event();
+    // TurnOnBranches_Trigger();
     // TurnOnBranches_GenParticle();
     // TurnOnBranches_Muon();
     // TurnOnBranches_HLTMuon();
     // TurnOnBranches_IterL3Muon();
+  }
+
+  void Clear()
+  {
+    delete vec_firedTrigger;
+    delete vec_filterName;
+    delete vec_HLTObj_pt;
+    delete vec_HLTObj_eta;
+    delete vec_HLTObj_phi;
+    delete vec_myFiredTrigger;
+    delete vec_myFilterName;
+    delete vec_myHLTObj_pt;
+    delete vec_myHLTObj_eta;
+    delete vec_myHLTObj_phi;
+    vec_firedTrigger = 0;
+    vec_filterName = 0;
+    vec_HLTObj_pt = 0;
+    vec_HLTObj_eta = 0;
+    vec_HLTObj_phi = 0;
+    vec_myFiredTrigger = 0;
+    vec_myFilterName = 0;
+    vec_myHLTObj_pt = 0;
+    vec_myHLTObj_eta = 0;
+    vec_myHLTObj_phi = 0;
   }
 
   void GetEvent(Int_t index)
@@ -457,6 +489,9 @@ public:
     chain_->SetBranchStatus("muon_isHighPt", 1);
     chain_->SetBranchAddress("muon_isHighPt", &muon_isHighPt);
 
+    chain_->SetBranchStatus("muon_isHighPtNew", 1);
+    chain_->SetBranchAddress("muon_isHighPtNew", &muon_isHighPtNew);
+
     chain_->SetBranchStatus("muon_isSoft", 1);
     chain_->SetBranchAddress("muon_isSoft", &muon_isSoft);
 
@@ -552,6 +587,27 @@ public:
 
     chain_->SetBranchStatus("muon_stationMask", 1);
     chain_->SetBranchAddress("muon_stationMask", &muon_stationMask);
+  }
+
+  void TurnOnBranches_simMuon()
+  {
+    chain_->SetBranchStatus("muon_simType", 1);
+    chain_->SetBranchAddress("muon_simType", &muon_simType);
+
+    chain_->SetBranchStatus("muon_simExtType", 1);
+    chain_->SetBranchAddress("muon_simExtType", &muon_simExtType);
+
+    chain_->SetBranchStatus("muon_simPdgId", 1);
+    chain_->SetBranchAddress("muon_simPdgId", &muon_simPdgId);
+
+    chain_->SetBranchStatus("muon_simPt", 1);
+    chain_->SetBranchAddress("muon_simPt", &muon_simPt);
+
+    chain_->SetBranchStatus("muon_simEta", 1);
+    chain_->SetBranchAddress("muon_simEta", &muon_simEta);
+
+    chain_->SetBranchStatus("muon_simPhi", 1);
+    chain_->SetBranchAddress("muon_simPhi", &muon_simPhi);
   }
 
   void TurnOnBranches_HLTMuon()

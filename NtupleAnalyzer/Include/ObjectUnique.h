@@ -59,12 +59,12 @@ public:
     Init();
   }
 
-  GenParticle(NtupleHandle* ntuple, Int_t index): GenParticle()
+  GenParticle(unique_ptr<NtupleHandle> &ntuple, Int_t index): GenParticle()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     ID     = ntuple->genParticle_ID[index];
     status = ntuple->genParticle_status[index];
@@ -187,6 +187,9 @@ public:
   Int_t simType;
   Int_t simExtType;
   Int_t simPdgId;
+  Double_t simPt;
+  Double_t simEta;
+  Double_t simPhi;
 
   Double_t relPFIso_dBeta;
   Double_t relTrkIso;
@@ -196,12 +199,12 @@ public:
     Init();
   }
 
-  Muon(NtupleHandle* ntuple, Int_t index): Muon()
+  Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt     = ntuple->muon_pt[index];
     eta    = ntuple->muon_eta[index];
@@ -271,6 +274,9 @@ public:
       simType      = ntuple->muon_simType[index];
       simExtType   = ntuple->muon_simExtType[index];
       simPdgId     = ntuple->muon_simPdgId[index];
+      simPt        = ntuple->muon_simPt[index];
+      simEta       = ntuple->muon_simEta[index];
+      simPhi       = ntuple->muon_simPhi[index];
     }
 
     relPFIso_dBeta = (PFIso04_charged + max(0., PFIso04_neutral + PFIso04_photon - 0.5*PFIso04_sumPU))/pt;
@@ -335,6 +341,9 @@ private:
     simType = -999;
     simExtType = -999;
     simPdgId = -999;
+    simPt = -999;
+    simEta = -999;
+    simPhi = -999;
 
     relPFIso_dBeta = -999;
     relTrkIso = -999;
@@ -352,12 +361,12 @@ public:
     Init();
   }
 
-  L3Muon(NtupleHandle* ntuple, Int_t index): L3Muon()
+  L3Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): L3Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt   = ntuple->L3Muon_pt[index];
     eta  = ntuple->L3Muon_eta[index];
@@ -392,12 +401,12 @@ public:
     Init();
   }
 
-  L2Muon(NtupleHandle* ntuple, Int_t index): L2Muon()
+  L2Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): L2Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt   = ntuple->L2Muon_pt[index];
     eta  = ntuple->L2Muon_eta[index];
@@ -432,12 +441,12 @@ public:
     Init();
   }
 
-  TkMuon(NtupleHandle* ntuple, Int_t index): TkMuon()
+  TkMuon(unique_ptr<NtupleHandle> &ntuple, Int_t index): TkMuon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt   = ntuple->TkMuon_pt[index];
     eta  = ntuple->TkMuon_eta[index];
@@ -472,12 +481,12 @@ public:
     Init();
   }
 
-  L1Muon(NtupleHandle* ntuple, Int_t index): L1Muon()
+  L1Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): L1Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt   = ntuple->L1Muon_pt[index];
     eta  = ntuple->L1Muon_eta[index];
@@ -524,12 +533,12 @@ public:
     Init();
   }
 
-  IterL3OIMuon(NtupleHandle* ntuple, Int_t index): IterL3OIMuon()
+  IterL3OIMuon(unique_ptr<NtupleHandle> &ntuple, Int_t index): IterL3OIMuon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     inner_pt     = ntuple->iterL3OI_inner_pt[index];
     inner_eta    = ntuple->iterL3OI_inner_eta[index];
@@ -601,12 +610,12 @@ public:
     Init();
   }
 
-  IterL3IOFromL2Muon(NtupleHandle* ntuple, Int_t index): IterL3IOFromL2Muon()
+  IterL3IOFromL2Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): IterL3IOFromL2Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     inner_pt     = ntuple->iterL3IOFromL2_inner_pt[index];
     inner_eta    = ntuple->iterL3IOFromL2_inner_eta[index];
@@ -678,12 +687,12 @@ public:
     Init();
   }
 
-  IterL3FromL2Muon(NtupleHandle* ntuple, Int_t index): IterL3FromL2Muon()
+  IterL3FromL2Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): IterL3FromL2Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     inner_pt     = ntuple->iterL3FromL2_inner_pt[index];
     inner_eta    = ntuple->iterL3FromL2_inner_eta[index];
@@ -742,12 +751,12 @@ public:
     Init();
   }
 
-  IterL3IOFromL1Muon(NtupleHandle* ntuple, Int_t index): IterL3IOFromL1Muon()
+  IterL3IOFromL1Muon(unique_ptr<NtupleHandle> &ntuple, Int_t index): IterL3IOFromL1Muon()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt     = ntuple->iterL3IOFromL1_pt[index];
     eta    = ntuple->iterL3IOFromL1_eta[index];
@@ -785,12 +794,12 @@ public:
     Init();
   }
 
-  IterL3MuonNoID(NtupleHandle* ntuple, Int_t index): IterL3MuonNoID()
+  IterL3MuonNoID(unique_ptr<NtupleHandle> &ntuple, Int_t index): IterL3MuonNoID()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     pt     = ntuple->iterL3MuonNoID_pt[index];
     eta    = ntuple->iterL3MuonNoID_eta[index];
@@ -830,12 +839,12 @@ public:
     Init();
   }
 
-  HLTObject(NtupleHandle* ntuple, Int_t index): HLTObject()
+  HLTObject(unique_ptr<NtupleHandle> &ntuple, Int_t index): HLTObject()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     filterName = ntuple->vec_filterName->at((UInt_t)index);
     pt  = ntuple->vec_HLTObj_pt->at((UInt_t)index);
@@ -867,12 +876,12 @@ public:
     Init();
   }
 
-  MYHLTObject(NtupleHandle* ntuple, Int_t index): MYHLTObject()
+  MYHLTObject(unique_ptr<NtupleHandle> &ntuple, Int_t index): MYHLTObject()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
     filterName = ntuple->vec_myFilterName->at((UInt_t)index);
     pt  = ntuple->vec_myHLTObj_pt->at((UInt_t)index);
@@ -894,8 +903,8 @@ private:
   }
 };
 
-/*
 // -- template
+/*
 class ParticleTemplate : public Object
 {
 public:
@@ -904,12 +913,12 @@ public:
     Init();
   }
 
-  ParticleTemplate(NtupleHandle* ntuple, Int_t index): ParticleTemplate()
+  ParticleTemplate(unique_ptr<NtupleHandle> &ntuple, Int_t index): ParticleTemplate()
   {
     FillVariable(ntuple, index);
   }
 
-  void FillVariable(NtupleHandle* ntuple, Int_t index)
+  void FillVariable(unique_ptr<NtupleHandle> &ntuple, Int_t index)
   {
 
   }
