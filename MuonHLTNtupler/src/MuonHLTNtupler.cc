@@ -748,7 +748,7 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
 
   } // -- end of iteration over all trigger names -- //
 
-  if( !isMiniAOD_ ) // -- AOD case
+  if( !isMiniAOD_ || isMYHLT ) // -- AOD case or rerun object (rerun object always saved as AOD format)
   {
     if( isMYHLT ) iEvent.getByToken(t_myTriggerEvent_, h_triggerEvent);
     else          iEvent.getByToken(t_triggerEvent_,   h_triggerEvent);
@@ -795,25 +795,10 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
     const edm::TriggerNames names = iEvent.triggerNames(*h_triggerResults);
     for( pat::TriggerObjectStandAlone triggerObj : *h_triggerObject)
     {
-      // triggerObj.unpackPathNames(names);
       triggerObj.unpackNamesAndLabels(iEvent, *h_triggerResults);
 
       for( size_t i_filter = 0; i_filter < triggerObj.filterLabels().size(); ++i_filter )
       {
-        // -- Get the full name of i-th filter -- //
-        // std::string fullname = triggerObj.filterLabels()[i_filter];
-
-        // std::string filterName;
-
-        // // -- Find ":" in the full name -- //
-        // size_t m = fullname.find_first_of(':');
-        
-        // // -- if ":" exists in the full name, takes the name before ":" as the filter name -- //
-        // if( m != std::string::npos )
-        //   filterName = fullname.substr(0, m);
-        // else
-        //   filterName = fullname;
-
         std::string filterName = triggerObj.filterLabels()[i_filter];
         if( SavedFilterCondition(filterName) )
         {
@@ -822,21 +807,6 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
           vec_HLTObj_pt_.push_back( triggerObj.pt() );
           vec_HLTObj_eta_.push_back( triggerObj.eta() );
           vec_HLTObj_phi_.push_back( triggerObj.phi() );
-
-          // if( isMYHLT )
-          // {
-          //   vec_myFilterName_.push_back( filterName );
-          //   vec_myHLTObj_pt_.push_back( triggerObj.pt() );
-          //   vec_myHLTObj_eta_.push_back( triggerObj.eta() );
-          //   vec_myHLTObj_phi_.push_back( triggerObj.phi() );
-          // }
-          // else
-          // {
-          //   vec_filterName_.push_back( filterName );
-          //   vec_HLTObj_pt_.push_back( triggerObj.pt() );
-          //   vec_HLTObj_eta_.push_back( triggerObj.eta() );
-          //   vec_HLTObj_phi_.push_back( triggerObj.phi() );
-          // }
         }
 
       } // -- loop over filters
