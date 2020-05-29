@@ -42,6 +42,8 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticleFwd.h"
 
+#include "DataFormats/PatCandidates/interface/TriggerObjectStandAlone.h"
+
 #include "TTree.h"
 
 using namespace std;
@@ -77,7 +79,7 @@ private:
 
   bool isNewHighPtMuon(const reco::Muon& muon, const reco::Vertex& vtx);
 
-  edm::EDGetTokenT< std::vector<reco::Muon> >                t_offlineMuon_;
+  edm::EDGetTokenT< edm::View<reco::Muon> >                  t_offlineMuon_;
   edm::EDGetTokenT< reco::VertexCollection >                 t_offlineVertex_;
   edm::EDGetTokenT< edm::TriggerResults >                    t_triggerResults_;
   edm::EDGetTokenT< trigger::TriggerEvent >                  t_triggerEvent_;
@@ -100,6 +102,10 @@ private:
   edm::EDGetTokenT< std::vector<PileupSummaryInfo> >         t_PUSummaryInfo_;
   edm::EDGetTokenT< GenEventInfoProduct >                    t_genEventInfo_;
   edm::EDGetTokenT< reco::GenParticleCollection >            t_genParticle_;
+
+  bool isMiniAOD_;
+  edm::EDGetTokenT< std::vector<pat::TriggerObjectStandAlone> > t_triggerObject_miniAOD_;
+
 
   TTree *ntuple_;
   static const int arrSize_ = 2000;
